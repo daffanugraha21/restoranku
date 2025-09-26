@@ -21,4 +21,45 @@ class MenuController extends Controller
 
         return view('customer.menu', compact('items', 'tableNumber'));
     }
+
+    public function cart()
+    {
+        $cart = Session::get('cart', []);
+        return view('customer.cart', compact('cart'));
+    }
+
+    public function addToCart(Request $request)
+    {
+        $menuId = $request->input('id');
+        $menu = Item::find($menuId);
+
+        if (!$menu) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Menu tidak ditemukan.'
+            ]);
+        }
+
+        $cart = Session::get('cart', []);
+
+        if(isset($cart[$menuId])) {
+            $cart[$menuId]['quantity'] += 1;
+        } else {
+            $cart[$menuId] = [
+                'id' => $menu->id,
+                'name' => $menu->name,
+                'price' => $menu->price,
+                'image' => $menu->image,
+                'qty' => 1,
+            ];
+        }
+        // simpan cart ke session
+        Session::put('cart', $cart);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Berhasil ditambahkan ke keranjang',
+            'cart' => $cart,
+        ]);
+    }
 }
