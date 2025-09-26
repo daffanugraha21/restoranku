@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Container\Attributes\DB;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {

@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
-use Illuminate\Container\Attributes\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\DB;
 
 class RoleSeeder extends Seeder
 {
@@ -34,6 +33,12 @@ class RoleSeeder extends Seeder
                 'description' => 'Pelanggan',
             ],
         ];
-        DB::table('roles')->insert($roles);
+        foreach ($roles as $role)
+        {
+            DB::table('roles')->updateOrInsert(
+                ['role_name' => $role['role_name']],
+                ['description' => $role['description']]
+            );
+        }
     }
 }
