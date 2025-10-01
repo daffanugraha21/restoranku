@@ -69,7 +69,7 @@
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
-            body: JSON.stringify({ menu_id: menuId })
+            body: JSON.stringify({ id: menuId })
         })
         .then(response => response.json())
         .then(data => {
