@@ -1,6 +1,14 @@
 @extends('customer.layouts.master')
 
 @section('content')
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Keranjang</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item active text-primary">Silakan periksa pesanan anda</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
         <div class="container-fluid py-5">
             <div class="container py-5">
                 @if (session('success'))
@@ -33,11 +41,13 @@
                             @foreach($cart as $item)
                                 @php
                                     $itemTotal = $item['price'] * $item['qty'];
+                                    $subtotal += $itemTotal;
                                 @endphp
                             <tr>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
-                                        <img src="https://images.unsplash.com/photo-1591325418441-ff678baf78ef" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                        {{-- <img src="{{ $item['image'] }}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt=""> --}}
+                                        <img src="{{ asset('img_item_upload/' . $item['image']) }}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="" onerror="this.onerror=null;this.src='{{ $item['image'] }}';">
                                     </div>
                                 </th>
                                 <td>
@@ -92,8 +102,7 @@
                                 <h2 class="display-6 mb-4">Total <span class="fw-normal">Pesanan</span></h2>
                                 <div class="d-flex justify-content-between mb-4">
                                     <h5 class="mb-0 me-4">Subtotal</h5>
-                                    <p class="mb-0">Rp 0</p>
-                                    {{-- <p class="mb-0">{{ 'Rp' . number_format ( $subTotal, 0, ',','.' )}}</p> --}}
+                                    <p class="mb-0">{{ 'Rp' . number_format ( $subtotal, 0, ',','.' )}}</p>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <p class="mb-0 me-4">Pajak (10%)</p>

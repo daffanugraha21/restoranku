@@ -45,7 +45,7 @@ class MenuController extends Controller
         $cart = Session::get('cart', []);
 
         if(isset($cart[$menuId])) {
-            $cart[$menuId]['quantity'] += 1;
+            $cart[$menuId]['qty'] += 1;
         } else {
             $cart[$menuId] = [
                 'id' => $menu->id,
@@ -105,5 +105,16 @@ class MenuController extends Controller
     public function clearCart() {
         session::forget('cart');
         return redirect()->route('cart')->with('success', 'Keranjang berhasil dikosongkan.');
+    }
+
+    // Checkout
+    public function checkout(){
+        $cart = Session::get('cart', []);
+        if(empty($cart)){
+            return redirect()->route('menu')->with('error', 'Keranjang anda kosong, silahkan pilih menu terlebih dahulu.');
+        }
+
+        $tableNumber = Session::get('tableNumber');
+        return view('customer.checkout', compact('cart', 'tableNumber'));
     }
 }
