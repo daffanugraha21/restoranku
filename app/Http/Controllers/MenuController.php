@@ -6,6 +6,8 @@ use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
+use function Pest\Laravel\session;
+
 class MenuController extends Controller
 {
     //
@@ -84,4 +86,24 @@ class MenuController extends Controller
             }
             return response()->json(['success' => false]);
         }
+
+    public function removeCart(Request $request) {
+        $itemId = $request->input('id');
+
+        $cart = Session::get('cart', []);
+
+        if (isset($cart[$itemId])) {
+            unset($cart[$itemId]);
+            Session::put('cart', $cart);
+
+            Session::flash('success', 'Item berhasil dihapus dari keranjang.');
+
+            return response()->json(['success' => true]);
+        }
     }
+
+    public function clearCart() {
+        session::forget('cart');
+        return redirect()->route('cart')->with('success', 'Keranjang berhasil dikosongkan.');
+    }
+}
